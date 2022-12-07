@@ -13,14 +13,17 @@ import static com.game.engine.Game.GAME_WIDTH;
 public class GamePanel extends JPanel {
 
 	private final Game game;
+	private final MouseInputs mouseInputs;
+	private final KeyboardInputs keyboardInputs;
 
 	public GamePanel(Game game) {
-		MouseInputs mouseInputs = new MouseInputs(this);
-
 		this.game = game;
 
+		mouseInputs = new MouseInputs(this);
+		keyboardInputs = new KeyboardInputs(this);
+
 		setPanelSize();
-		addKeyListener(new KeyboardInputs(this));
+		addKeyListener(keyboardInputs);
 		addMouseListener(mouseInputs);
 		addMouseMotionListener(mouseInputs);
 	}

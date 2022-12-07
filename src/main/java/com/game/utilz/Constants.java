@@ -3,6 +3,43 @@ package com.game.utilz;
 import com.game.engine.Game;
 
 public class Constants {
+	public static class EnemyConstants {
+		public static final int BEAR = 0;
+		public static final int MINION = 1;
+
+		public static final int IDDLE = 0;
+		public static final int RUNNING = 1;
+		public static final int ATTACK = 2;
+		public static final int HIT = 3;
+		public static final int DEAD = 4;
+
+		public static final int BEAR_SIZE_DEFAULT = 40;
+		public static final int BEAR_SIZE = (int) (BEAR_SIZE_DEFAULT * Game.SCALE);
+
+		public static int GetSpriteAmount(int enemyType, int enemyState) {
+			switch (enemyType) {
+				case BEAR -> {
+					return switch (enemyState) {
+						case IDDLE, HIT -> 4;
+						case RUNNING, ATTACK, DEAD -> 6;
+						default -> 1;
+					};
+				}
+				default -> {
+					return 1;
+				}
+			}
+		}
+	}
+
+	public static class Enviroment {
+		public static final int SMALL_CLOUD_WIDTH_DEFAULT = 74;
+		public static final int SMALL_CLOUD_HEIGHT_DEFAULT = 24;
+
+		public static final int SMALL_CLOUD_WIDTH = (int) (SMALL_CLOUD_WIDTH_DEFAULT * Game.SCALE);
+		public static final int SMALL_CLOUD_HEIGHT = (int) (SMALL_CLOUD_HEIGHT_DEFAULT * Game.SCALE);
+	}
+
 	public static class UI {
 		public static class MenuButtons {
 			public static final int B_WIDTH_DEFAULT = 26;

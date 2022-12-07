@@ -11,10 +11,8 @@ import static com.game.utilz.HelpMethods.*;
 
 public class Player extends Entity {
 	private static final float playerSpeed = Game.SCALE;
-	private static final int animationSpeed = 20;
 
 	private BufferedImage[][] animations;
-	private int animationTick, animationIndex;
 	private int playerAction = IDLE;
 	private boolean moving = false, attacking = false;
 	private boolean left, up, right, down;
@@ -149,15 +147,19 @@ public class Player extends Entity {
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
 		animations = new BufferedImage[10][8];
-		for (int j = 0; j < animations.length; j++)
-			for (int i = 0; i < animations[j].length; i++)
+		for (int j = 0; j < animations.length; j++) {
+			for (int i = 0; i < animations[j].length; i++) {
 				animations[j][i] = img.getSubimage(i * 32, j * 32, 32, 32);
+			}
+		}
 
 	}
 
 	public void loadLvlData(int[][] lvlData) {
 		this.lvlData = lvlData;
-		if (!IsEntityOnFloor(hitbox, lvlData)) inAir = true;
+		if (!IsEntityOnFloor(hitbox, lvlData)) {
+			inAir = true;
+		}
 	}
 
 	public void resetDirBooleans() {
