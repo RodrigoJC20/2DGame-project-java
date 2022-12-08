@@ -31,7 +31,7 @@ public class HelpMethods {
     }
 
     public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
-        int value = lvlData[xTile][yTile];
+        int value = lvlData[yTile][xTile];
 
         if (value >= TOTAL_TILES || value < 0)
             return true;

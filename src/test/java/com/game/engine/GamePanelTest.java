@@ -16,4 +16,9 @@ public class GamePanelTest {
         // Then
         Assertions.assertEquals(game, gamePanel.getGame());
     }
+
+    @Test
+    void givenAGamePanel_whenPaintComponent_thenGameRepaint() {
+
+    }
 }
