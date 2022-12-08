@@ -47,8 +47,6 @@ public abstract class Entity {
 		return animationIndex;
 	}
 
-	public abstract void update();
-
 	public abstract void draw(Graphics g, int xLvlOffset);
 
 	protected abstract void loadAnimations();

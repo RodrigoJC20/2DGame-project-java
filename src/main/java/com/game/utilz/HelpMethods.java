@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import com.game.engine.Game;
 
 import static com.game.utilz.Constants.LevelConstants.BLANK_TILE;
+import static com.game.utilz.Constants.LevelConstants.LevelOne.TOTAL_TILES;
 
 public class HelpMethods {
 
@@ -26,9 +27,13 @@ public class HelpMethods {
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
 
-        int value = lvlData[(int) yIndex][(int) xIndex];
+        return IsTileSolid((int) xIndex, (int) yIndex, lvlData);
+    }
 
-        if (value >= 48 || value < 0)
+    public static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
+        int value = lvlData[xTile][yTile];
+
+        if (value >= TOTAL_TILES || value < 0)
             return true;
 
         return value != BLANK_TILE;
@@ -71,5 +76,22 @@ public class HelpMethods {
 
     public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
         return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+    }
+
+    public static boolean IsSightClear(int[][] lvlData, Rectangle2D.Float hitbox1, Rectangle2D.Float hitbox2, int yTile) {
+        int xTileStart = (int) (hitbox1.x / Game.TILES_SIZE);
+        int xTileEnd = (int) (hitbox2.x / Game.TILES_SIZE);
+
+        if (xTileStart > xTileEnd) {
+            xTileStart = xTileStart ^ xTileEnd ^ (xTileEnd = xTileStart);
+        }
+
+        for (int i = 0; i < xTileEnd - xTileStart; i++) {
+            if (IsTileSolid(xTileStart + i, yTile, lvlData)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

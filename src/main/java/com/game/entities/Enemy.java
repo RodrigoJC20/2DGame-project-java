@@ -1,14 +1,20 @@
 package com.game.entities;
 
-import static com.game.utilz.Constants.Directions.*;
+import com.game.engine.Game;
+
+import static com.game.utilz.Constants.Directions.LEFT;
+import static com.game.utilz.Constants.Directions.RIGHT;
 import static com.game.utilz.Constants.EnemyConstants.*;
 import static com.game.utilz.Constants.GeneralConstants.GRAVITY;
 import static com.game.utilz.HelpMethods.*;
 
 public abstract class Enemy extends Entity {
-    private boolean firstUpdate = true;
-    private int walkDir = LEFT;
-    private int enemyType;
+    private final int enemyType;
+
+    protected boolean firstUpdate = true;
+    protected int walkDir = LEFT;
+    protected int enemyYTile;
+    protected float attackDistance = Game.TILES_SIZE;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -29,36 +35,25 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public void update(int[][] lvlData) {
-        updateAnimationTick();
-        updatePosition(lvlData);
+    protected void firstUpdateCheck(int[][] lvlData) {
+        if (!IsEntityOnFloor(hitbox, lvlData)) {
+            inAir = true;
+        }
+        firstUpdate = false;
     }
 
-    protected void updatePosition(int[][] lvlData) {
-        if (firstUpdate) {
-            if (!IsEntityOnFloor(hitbox, lvlData)) {
-                inAir = true;
-            }
-            firstUpdate = false;
-        }
-
-        if (inAir) {
-            if (CanMoveHere(hitbox.x, hitbox.y + fallSpeed, hitbox.width, hitbox.height, lvlData)) {
-                hitbox.y += fallSpeed;
-                fallSpeed += GRAVITY;
-            } else {
-                inAir = false;
-                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, fallSpeed);
-            }
+    protected void updateInAir(int[][] lvlData) {
+        if (CanMoveHere(hitbox.x, hitbox.y + fallSpeed, hitbox.width, hitbox.height, lvlData)) {
+            hitbox.y += fallSpeed;
+            fallSpeed += GRAVITY;
         } else {
-            switch (entityState) {
-                case IDLE -> entityState = RUNNING;
-                case RUNNING -> updateRun(lvlData);
-            }
+            inAir = false;
+            hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, fallSpeed);
+            enemyYTile = (int) (hitbox.y / Game.TILES_SIZE);
         }
     }
 
-    private void updateRun(int[][] lvlData) {
+    protected void move(int[][] lvlData) {
         float xSpeed;
 
         if (walkDir == LEFT) {
@@ -79,6 +74,45 @@ public abstract class Enemy extends Entity {
         } else {
             walkDir = LEFT;
         }
+    }
+
+    protected void newState(int enemyState) {
+        entityState = enemyState;
+        animationTick = 0;
+        animationIndex = 0;
+    }
+
+    protected boolean canSeePlayer(int[][] lvlData, Player player) {
+        int playerTileY = (int) (player.hitbox.y / Game.TILES_SIZE);
+
+        if (playerTileY != enemyYTile) {
+            return false;
+        }
+
+        if (!isPlayerInRange(player)) {
+            return false;
+        }
+
+        if (!IsSightClear(lvlData, hitbox, player.hitbox, enemyYTile)) {
+            return false;
+        }
+
+        turnTowardsPlayer(player);
+
+        return true;
+    }
+
+    protected void turnTowardsPlayer(Player player) {
+        if (player.hitbox.x > hitbox.x) {
+            walkDir = RIGHT;
+        } else {
+            walkDir = LEFT;
+        }
+    }
+
+    protected boolean isPlayerInRange(Player player) {
+        int absouluteValue = (int) (Math.abs(player.hitbox.x - hitbox.x));
+        return absouluteValue <= attackDistance * 4;
     }
 
     public int getEnemyState() {

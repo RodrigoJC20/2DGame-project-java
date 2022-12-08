@@ -6,7 +6,7 @@ import com.game.ui.MenuButtonBasic;
 import com.game.ui.MenuButtonPlay;
 import com.game.utilz.LoadSave;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;

@@ -29,7 +29,6 @@ public class Player extends Entity {
 		initHitbox(x, y, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT);
 	}
 
-	@Override
 	public void update() {
 		updatePosition();
 		updateAnimationTick();

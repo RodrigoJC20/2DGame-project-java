@@ -16,9 +16,25 @@ public class BearMonster extends Enemy {
         initHitbox(x, y, BEAR_HITBOX_WIDTH, BEAR_HITBOX_HEIGHT);
     }
 
-    @Override
-    public void update() {
 
+    public void update(int[][] lvlData) {
+        updateAnimationTick();
+        updatePosition(lvlData);
+    }
+
+    private void updatePosition(int[][] lvlData) {
+        if (firstUpdate) {
+            firstUpdateCheck(lvlData);
+        }
+
+        if (inAir) {
+            updateInAir(lvlData);
+        } else {
+            switch (entityState) {
+                case IDLE -> newState(RUNNING);
+                case RUNNING -> move(lvlData);
+            }
+        }
     }
 
     @Override
