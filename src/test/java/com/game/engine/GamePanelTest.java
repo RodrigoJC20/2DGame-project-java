@@ -12,6 +12,9 @@ public class GamePanelTest {
 
         // When
         GamePanel gamePanel = new GamePanel(game);
+        gamePanel.getMouseMotionListeners();
+        gamePanel.getKeyListeners();
+        gamePanel.getMouseListeners();
 
         // Then
         Assertions.assertEquals(game, gamePanel.getGame());
