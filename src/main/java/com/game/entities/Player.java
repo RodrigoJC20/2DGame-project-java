@@ -44,7 +44,7 @@ public class Player extends Entity {
 					height,
 					null);
 
-		drawHitbox(g, lvlOffset);
+		//drawHitbox(g, lvlOffset);
 	}
 
 	private void updateAnimationTick() {

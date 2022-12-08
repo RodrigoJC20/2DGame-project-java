@@ -34,9 +34,9 @@ public class BearMonster extends Enemy {
                 case RUNNING -> {
                     if (canSeePlayer(lvlData, player)) {
                         turnTowardsPlayer(player);
-                    }
-                    if (isPlayerCloseForAttack(player)) {
-                        newState(ATTACK);
+                        if (isPlayerCloseForAttack(player)) {
+                            newState(ATTACK);
+                        }
                     }
 
                     move(lvlData);
@@ -52,7 +52,7 @@ public class BearMonster extends Enemy {
                 (int) hitbox.y - BEAR_DRAW_OFFSET,
                 BEAR_SIZE,
                 BEAR_SIZE,null);
-        drawHitbox(g, xLvlOffset);
+        //drawHitbox(g, xLvlOffset);
     }
 
     @Override

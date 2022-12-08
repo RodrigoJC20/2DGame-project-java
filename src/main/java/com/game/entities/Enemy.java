@@ -14,7 +14,7 @@ public abstract class Enemy extends Entity {
     protected boolean firstUpdate = true;
     protected int walkDir = LEFT;
     protected int enemyYTile;
-    protected float attackDistance = Game.TILES_SIZE * 0.7f;
+    protected float attackDistance = Game.TILES_SIZE * 0.8f;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -109,7 +109,7 @@ public abstract class Enemy extends Entity {
 
     protected boolean isPlayerInRange(Player player) {
         int absouluteValue = (int) (Math.abs(player.hitbox.x - hitbox.x));
-        return absouluteValue <= attackDistance * 4;
+        return absouluteValue <= attackDistance * 5;
     }
 
     protected boolean isPlayerCloseForAttack(Player player) {
