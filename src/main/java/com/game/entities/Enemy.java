@@ -14,7 +14,7 @@ public abstract class Enemy extends Entity {
     protected boolean firstUpdate = true;
     protected int walkDir = LEFT;
     protected int enemyYTile;
-    protected float attackDistance = Game.TILES_SIZE;
+    protected float attackDistance = Game.TILES_SIZE * 0.7f;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -31,6 +31,9 @@ public abstract class Enemy extends Entity {
             animationIndex++;
             if (animationIndex >= GetSpriteAmount(enemyType, entityState)) {
                 animationIndex = 0;
+                if (entityState == ATTACK) {
+                    entityState = IDLE;
+                }
             }
         }
     }
@@ -93,13 +96,7 @@ public abstract class Enemy extends Entity {
             return false;
         }
 
-        if (!IsSightClear(lvlData, hitbox, player.hitbox, enemyYTile)) {
-            return false;
-        }
-
-        turnTowardsPlayer(player);
-
-        return true;
+        return IsSightClear(lvlData, hitbox, player.hitbox, enemyYTile);
     }
 
     protected void turnTowardsPlayer(Player player) {
@@ -113,6 +110,11 @@ public abstract class Enemy extends Entity {
     protected boolean isPlayerInRange(Player player) {
         int absouluteValue = (int) (Math.abs(player.hitbox.x - hitbox.x));
         return absouluteValue <= attackDistance * 4;
+    }
+
+    protected boolean isPlayerCloseForAttack(Player player) {
+        int absouluteValue = (int) (Math.abs(player.hitbox.x - hitbox.x));
+        return absouluteValue <= attackDistance;
     }
 
     public int getEnemyState() {

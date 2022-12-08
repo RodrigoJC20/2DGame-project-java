@@ -16,13 +16,12 @@ public class BearMonster extends Enemy {
         initHitbox(x, y, BEAR_HITBOX_WIDTH, BEAR_HITBOX_HEIGHT);
     }
 
-
-    public void update(int[][] lvlData) {
+    public void update(int[][] lvlData, Player player) {
         updateAnimationTick();
-        updatePosition(lvlData);
+        updatePosition(lvlData, player);
     }
 
-    private void updatePosition(int[][] lvlData) {
+    private void updatePosition(int[][] lvlData, Player player) {
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }
@@ -32,7 +31,16 @@ public class BearMonster extends Enemy {
         } else {
             switch (entityState) {
                 case IDLE -> newState(RUNNING);
-                case RUNNING -> move(lvlData);
+                case RUNNING -> {
+                    if (canSeePlayer(lvlData, player)) {
+                        turnTowardsPlayer(player);
+                    }
+                    if (isPlayerCloseForAttack(player)) {
+                        newState(ATTACK);
+                    }
+
+                    move(lvlData);
+                }
             }
         }
     }
@@ -49,7 +57,7 @@ public class BearMonster extends Enemy {
 
     @Override
     protected void loadAnimations() {
-        movingSpeed *= 0.5;
+        movingSpeed *= 0.3;
         entityState = IDLE;
         entityAnimations = new BufferedImage[BEAR_ROWS][BEAR_COLS];
 

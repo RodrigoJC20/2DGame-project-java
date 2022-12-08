@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
 public class EnemyManager {
     private Playing playing;
-    private int[][] lvlData;
+    private final Player player;
+    private final int[][] lvlData;
 
     private ArrayList<BearMonster> bearMonsters = new ArrayList<>();
 
-    public EnemyManager(Playing playing, int[][] lvlData) {
+    public EnemyManager(Playing playing, int[][] lvlData, Player player) {
+        this.player = player;
         this.playing = playing;
         this.lvlData = lvlData;
 
@@ -24,7 +26,7 @@ public class EnemyManager {
     }
 
     public void update() {
-        updateBears(lvlData);
+        updateBears(lvlData, player);
     }
 
     public void draw(Graphics g, int xLvlOffset) {
@@ -37,9 +39,9 @@ public class EnemyManager {
         }
     }
 
-    private void updateBears(int[][] lvlData) {
+    private void updateBears(int[][] lvlData, Player player) {
         for (BearMonster bearMonster : bearMonsters) {
-            bearMonster.update(lvlData);
+            bearMonster.update(lvlData, player);
         }
     }
 }

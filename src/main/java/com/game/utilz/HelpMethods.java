@@ -90,6 +90,9 @@ public class HelpMethods {
             if (IsTileSolid(xTileStart + i, yTile, lvlData)) {
                 return false;
             }
+            if (!IsTileSolid(xTileStart, yTile + 1, lvlData)) {
+                return false;
+            }
         }
 
         return true;

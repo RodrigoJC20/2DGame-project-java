@@ -55,10 +55,11 @@ public class Playing extends State implements StateMethods {
     private void initClasses() {
         pauseOverlay = new PauseOverlay(this);
         levelManager = new LevelManager(game);
-        enemyManager = new EnemyManager(this, levelManager.getCurrentLevel().getLvlData());
 
         player = new Player(200, 200, (int) (32 * Game.SCALE), (int) (32 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
+
+        enemyManager = new EnemyManager(this, levelManager.getCurrentLevel().getLvlData(), player);
     }
 
     @Override
