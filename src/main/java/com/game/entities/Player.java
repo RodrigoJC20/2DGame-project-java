@@ -213,8 +213,8 @@ public class Player extends Entity {
 				null);
 
 		drawUI(g);
-		drawHitbox(g, lvlOffset);
-		drawAttackbox(g, lvlOffset);
+		//drawHitbox(g, lvlOffset);
+		//drawAttackbox(g, lvlOffset);
 	}
 
 	private void drawUI(Graphics g) {

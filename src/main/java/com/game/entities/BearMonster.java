@@ -87,8 +87,8 @@ public class BearMonster extends Enemy {
                 (int) hitbox.y - BEAR_DRAW_OFFSET,
                 BEAR_SIZE * flipW(),
                 BEAR_SIZE,null);
-        drawHitbox(g, xLvlOffset);
-        drawAttackbox(g, xLvlOffset);
+        //drawHitbox(g, xLvlOffset);
+        //drawAttackbox(g, xLvlOffset);
     }
 
     @Override
