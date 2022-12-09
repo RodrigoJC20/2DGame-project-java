@@ -9,12 +9,13 @@ import static com.game.utilz.Constants.GeneralConstants.GRAVITY;
 import static com.game.utilz.HelpMethods.*;
 
 public abstract class Enemy extends Entity {
-    private final int enemyType;
+    protected boolean firstUpdate;
 
-    protected boolean firstUpdate = true;
-    protected int walkDir = LEFT;
     protected int enemyYTile;
-    protected float attackDistance = Game.TILES_SIZE * 0.8f;
+
+    protected boolean alive;
+
+    protected final int enemyType;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -31,8 +32,9 @@ public abstract class Enemy extends Entity {
             animationIndex++;
             if (animationIndex >= GetSpriteAmount(enemyType, entityState)) {
                 animationIndex = 0;
-                if (entityState == ATTACK) {
-                    entityState = IDLE;
+                switch (entityState) {
+                    case ATTACK, HURT -> entityState = IDLE;
+                    case DEAD -> alive = false;
                 }
             }
         }
@@ -42,7 +44,25 @@ public abstract class Enemy extends Entity {
         if (!IsEntityOnFloor(hitbox, lvlData)) {
             inAir = true;
         }
+
         firstUpdate = false;
+    }
+
+    protected int flipX(int ENEMY_FLIP_OFFSET) {
+        if (walkDirection == RIGHT) {
+            return width + ENEMY_FLIP_OFFSET;
+        } else {
+            return 0;
+        }
+    }
+
+    protected int flipW() {
+        if (walkDirection == RIGHT) {
+            return -1;
+        } else {
+            return 1;
+        }
+
     }
 
     protected void updateInAir(int[][] lvlData) {
@@ -59,23 +79,23 @@ public abstract class Enemy extends Entity {
     protected void move(int[][] lvlData) {
         float xSpeed;
 
-        if (walkDir == LEFT) {
+        if (walkDirection == LEFT) {
             xSpeed = -movingSpeed;
         } else {
             xSpeed = movingSpeed;
         }
 
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
-            if (IsFloor(hitbox, (walkDir == LEFT ? xSpeed : xSpeed + hitbox.width), lvlData)) {
+            if (IsFloor(hitbox, (walkDirection == LEFT ? xSpeed : xSpeed + hitbox.width), lvlData)) {
                 hitbox.x += xSpeed;
                 return;
             }
         }
 
-        if (walkDir == LEFT) {
-            walkDir = RIGHT;
+        if (walkDirection == LEFT) {
+            walkDirection = RIGHT;
         } else {
-            walkDir = LEFT;
+            walkDirection = LEFT;
         }
     }
 
@@ -85,14 +105,14 @@ public abstract class Enemy extends Entity {
         animationIndex = 0;
     }
 
-    protected boolean canSeePlayer(int[][] lvlData, Player player) {
+    protected boolean canSeePlayer(int[][] lvlData, Player player, float attackDistance) {
         int playerTileY = (int) (player.hitbox.y / Game.TILES_SIZE);
 
         if (playerTileY != enemyYTile) {
             return false;
         }
 
-        if (!isPlayerInRange(player)) {
+        if (!isPlayerInRange(player, attackDistance)) {
             return false;
         }
 
@@ -101,23 +121,32 @@ public abstract class Enemy extends Entity {
 
     protected void turnTowardsPlayer(Player player) {
         if (player.hitbox.x > hitbox.x) {
-            walkDir = RIGHT;
+            walkDirection = RIGHT;
         } else {
-            walkDir = LEFT;
+            walkDirection = LEFT;
         }
     }
 
-    protected boolean isPlayerInRange(Player player) {
-        int absouluteValue = (int) (Math.abs(player.hitbox.x - hitbox.x));
-        return absouluteValue <= attackDistance * 5;
+    protected boolean isPlayerInRange(Player player, float attackDistance) {
+        float visionRange = attackDistance * 5;
+        int absouluteValue_1 = (int) (Math.abs(player.hitbox.x - hitbox.x));
+        int absouluteValue_2 = (int) (Math.abs((player.hitbox.x + player.hitbox.width) - (hitbox.x + hitbox.width)));
+
+        return (absouluteValue_1 <= visionRange) || (absouluteValue_2 <= visionRange);
     }
 
-    protected boolean isPlayerCloseForAttack(Player player) {
-        int absouluteValue = (int) (Math.abs(player.hitbox.x - hitbox.x));
-        return absouluteValue <= attackDistance;
+    protected boolean isPlayerCloseForAttack(Player player, float attackDistance) {
+        int absouluteValue_1 = (int) (Math.abs(player.hitbox.x - hitbox.x));
+        int absouluteValue_2 = (int) (Math.abs((player.hitbox.x + player.hitbox.width) - (hitbox.x + hitbox.width)));
+
+        return (absouluteValue_1 <= attackDistance) || (absouluteValue_2 <= attackDistance);
     }
 
     public int getEnemyState() {
         return entityState;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

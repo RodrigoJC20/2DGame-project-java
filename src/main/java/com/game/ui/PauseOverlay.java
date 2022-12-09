@@ -6,6 +6,7 @@ import com.game.engine.Game;
 import com.game.utilz.LoadSave;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -13,8 +14,7 @@ import static com.game.utilz.Constants.UI.SoundButtons.*;
 import static com.game.utilz.Constants.UI.URMButtons.*;
 import static com.game.utilz.Constants.UI.VolumeButton.*;
 
-public class PauseOverlay {
-    private Playing playing;
+public class PauseOverlay extends ScreenOverlay {
     private BufferedImage backgroundImg;
     private int bgX, bgY, bgWidth, bgHeight;
     private SoundButton musicButton, sfxButton;
@@ -22,7 +22,7 @@ public class PauseOverlay {
     private VolumeButton volumeButton;
 
     public PauseOverlay(Playing playing) {
-        this.playing = playing;
+        super(playing);
 
         loadBackground();
         createSoundButtons();
@@ -63,8 +63,11 @@ public class PauseOverlay {
         bgY = (int) (25 * Game.SCALE);
     }
 
+    @Override
     public void draw(Graphics g) {
         // Background
+        g.setColor(new Color(0,0,0,150));
+        g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         g.drawImage(backgroundImg, bgX, bgY, bgWidth, bgHeight, null);
 
         // Sound Buttons
@@ -95,6 +98,7 @@ public class PauseOverlay {
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
         if (isIn(e, musicButton))
             musicButton.setMousePressed(true);
@@ -110,6 +114,7 @@ public class PauseOverlay {
             volumeButton.setMousePressed(true);
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, musicButton)) {
             if (musicButton.isMousePressed())
@@ -138,6 +143,7 @@ public class PauseOverlay {
         volumeButton.resetBools();
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
         musicButton.setMouseOver(false);
         sfxButton.setMouseOver(false);
@@ -158,6 +164,11 @@ public class PauseOverlay {
             unpauseButton.setMouseOver(true);
         else if (isIn(e, volumeButton))
             volumeButton.setMouseOver(true);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
     }
 
     private boolean isIn(MouseEvent e, PauseButton b) {

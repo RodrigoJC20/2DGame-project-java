@@ -6,6 +6,9 @@ import com.game.utilz.LoadSave;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import static com.game.utilz.Constants.EnemyConstants.Bear.BEAR_MAX_HEALTH;
+import static com.game.utilz.Constants.PlayerConstants.PLAYER_DAMAGE;
+
 public class EnemyManager {
     private Playing playing;
     private final Player player;
@@ -19,6 +22,12 @@ public class EnemyManager {
         this.lvlData = lvlData;
 
         addEnemies();
+    }
+
+    public void checkEnemyHit() {
+        for (BearMonster bearMonster : bearMonsters) {
+            player.checkEntityHit(bearMonster, PLAYER_DAMAGE, BEAR_MAX_HEALTH);
+        }
     }
 
     private void addEnemies() {
@@ -35,13 +44,17 @@ public class EnemyManager {
 
     private void drawBears(Graphics g, int xLvlOffset) {
         for (BearMonster bear : bearMonsters) {
-            bear.draw(g, xLvlOffset);
+            if (bear.isAlive()) {
+                bear.draw(g, xLvlOffset);
+            }
         }
     }
 
     private void updateBears(int[][] lvlData, Player player) {
         for (BearMonster bearMonster : bearMonsters) {
-            bearMonster.update(lvlData, player);
+            if (bearMonster.isAlive()) {
+                bearMonster.update(lvlData, player);
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ import static com.game.utilz.Constants.LevelConstants.LevelOne.*;
 
 public class LoadSave {
 
-	public static final String PLAYER_ATLAS = "player1_sprites.png";
+	public static final String PLAYER_ATLAS = "player_1_sprites.png";
 	public static final String LEVEL_ONE_TILESET = "tileset_map_1.png";
 	public static final String LEVEL_ONE_DATA = "level_one_data.png";
 	public static final String MENU_BUTTONS = "menu_buttons.png";
@@ -28,7 +28,8 @@ public class LoadSave {
 	public static final String MENU_BACKGROUND_IMG = "menu_background_2.png";
 	public static final String PLAYING_BACKGROUND_IMG = "playing_background.png";
 	public static final String SMALL_CLOUDS = "small_clouds.png";
-	public static final String MINI_BEAR_SPRITE = "mini_bear_monster.png";
+	public static final String MINI_BEAR_SPRITE = "mini_bear_sprites.png";
+	public static final String HEALTH_BAR = "health_power_bar.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;

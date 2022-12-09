@@ -78,7 +78,19 @@ public class HelpMethods {
         return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
     }
 
+    public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
+        for (int i = 0; i < xEnd - xStart; i++) {
+            if (IsTileSolid(xStart + i, y, lvlData))
+                return false;
+            if (!IsTileSolid(xStart + i, y + 1, lvlData))
+                return false;
+        }
+
+        return true;
+    }
+
     public static boolean IsSightClear(int[][] lvlData, Rectangle2D.Float hitbox1, Rectangle2D.Float hitbox2, int yTile) {
+        // First validation (Bottom-left corner)
         int xTileStart = (int) (hitbox1.x / Game.TILES_SIZE);
         int xTileEnd = (int) (hitbox2.x / Game.TILES_SIZE);
 
@@ -86,15 +98,18 @@ public class HelpMethods {
             xTileStart = xTileStart ^ xTileEnd ^ (xTileEnd = xTileStart);
         }
 
-        for (int i = 0; i < xTileEnd - xTileStart; i++) {
-            if (IsTileSolid(xTileStart + i, yTile, lvlData)) {
-                return false;
-            }
-            if (!IsTileSolid(xTileStart, yTile + 1, lvlData)) {
-                return false;
-            }
+        boolean firstCheck = IsAllTilesWalkable(xTileStart, xTileEnd, yTile, lvlData);
+
+        // Second validation (Bottom-right corner)
+        xTileStart = (int) ((hitbox1.x + hitbox1.width) / Game.TILES_SIZE);
+        xTileEnd = (int) ((hitbox2.x + hitbox2.width) / Game.TILES_SIZE);
+
+        if (xTileStart > xTileEnd) {
+            xTileStart = xTileStart ^ xTileEnd ^ (xTileEnd = xTileStart);
         }
 
-        return true;
+        boolean secondCheck = IsAllTilesWalkable(xTileStart, xTileEnd, yTile, lvlData);
+
+        return firstCheck || secondCheck;
     }
 }
