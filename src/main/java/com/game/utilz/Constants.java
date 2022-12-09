@@ -136,8 +136,9 @@ public class Constants {
 
 		public static final int PLAYER_HITBOX_WIDTH = (int) (PLAYER_HITBOX_WIDTH_DEFAULT * Game.SCALE);
 		public static final int PLAYER_HITBOX_HEIGHT = (int) (PLAYER_HITBOX_HEIGHT_DEFAULT * Game.SCALE);
-		public static final	int PLAYER_ATTACKBOX_SIZE = (int) (20 * Game.SCALE);
-		public static final	int PLAYER_ATTACKBOX_OFFSET = (int) (5 * Game.SCALE);
+		public static final	int PLAYER_ATTACKBOX_SIZE = (int) (10 * Game.SCALE);
+		public static final	int PLAYER_ATTACKBOX_X_OFFSET = (int) (3 * Game.SCALE);
+		public static final	int PLAYER_ATTACKBOX_Y_OFFSET = (int) (9 * Game.SCALE);
 		public static final int PLAYER_X_DRAW_OFFSET = (int) (7 * Game.SCALE);
 		public static final int PLAYER_Y_DRAW_OFFSET = (int) (5 * Game.SCALE);
 

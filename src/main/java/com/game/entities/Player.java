@@ -54,7 +54,7 @@ public class Player extends Entity {
 	public void update() {
 		checkPlayerHealth();
 		updateHealthBar();
-		updateAttackBox(PLAYER_ATTACKBOX_OFFSET);
+		updateAttackBox(PLAYER_ATTACKBOX_X_OFFSET, PLAYER_ATTACKBOX_Y_OFFSET);
 		updatePosition();
 		updateAnimationTick();
 		checkHitEnemy();
@@ -213,8 +213,8 @@ public class Player extends Entity {
 				null);
 
 		drawUI(g);
-		//drawHitbox(g, lvlOffset);
-		//drawAttackbox(g, lvlOffset);
+		drawHitbox(g, lvlOffset);
+		drawAttackbox(g, lvlOffset);
 	}
 
 	private void drawUI(Graphics g) {

@@ -60,14 +60,14 @@ public abstract class Entity {
 		attackBox = new Rectangle2D.Float(x, y, width, height);
 	}
 
-	protected void updateAttackBox(int ATTACK_BOX_OFFSET) {
+	protected void updateAttackBox(int ATTACK_BOX_X_OFFSET, int ATTACK_BOX_Y_OFFSET) {
 		if (walkDirection == RIGHT) {
-			attackBox.x = hitbox.x + hitbox.width + ATTACK_BOX_OFFSET;
+			attackBox.x = hitbox.x + hitbox.width + ATTACK_BOX_X_OFFSET;
 		} else if (walkDirection == LEFT) {
-			attackBox.x = (hitbox.x - attackBox.width) - ATTACK_BOX_OFFSET;
+			attackBox.x = (hitbox.x - attackBox.width) - ATTACK_BOX_X_OFFSET;
 		}
 
-		attackBox.y = hitbox.y + ATTACK_BOX_OFFSET;
+		attackBox.y = hitbox.y + ATTACK_BOX_Y_OFFSET;
 	}
 
 	protected void checkEntityHit(Entity entity, int damage, int maxHealth) {

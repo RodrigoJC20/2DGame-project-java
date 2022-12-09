@@ -34,7 +34,7 @@ public class BearMonster extends Enemy {
     public void update(int[][] lvlData, Player player) {
         updateAnimationTick();
         updateBehavior(lvlData, player);
-        updateAttackBox(BEAR_ATTACKBOX_OFFSET);
+        updateAttackBox(BEAR_ATTACKBOX_OFFSET, BEAR_ATTACKBOX_OFFSET);
     }
 
     private void updateBehavior(int[][] lvlData, Player player) {
@@ -87,8 +87,8 @@ public class BearMonster extends Enemy {
                 (int) hitbox.y - BEAR_DRAW_OFFSET,
                 BEAR_SIZE * flipW(),
                 BEAR_SIZE,null);
-        //drawHitbox(g, xLvlOffset);
-        //drawAttackbox(g, xLvlOffset);
+        drawHitbox(g, xLvlOffset);
+        drawAttackbox(g, xLvlOffset);
     }
 
     @Override
