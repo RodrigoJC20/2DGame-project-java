@@ -57,4 +57,10 @@ public class EnemyManager {
             }
         }
     }
+
+    public void resetAllEnemies() {
+        for(BearMonster bearMonster : bearMonsters) {
+            bearMonster.reset();
+        }
+    }
 }

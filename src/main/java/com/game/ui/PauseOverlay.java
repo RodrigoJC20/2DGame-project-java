@@ -100,18 +100,19 @@ public class PauseOverlay extends ScreenOverlay {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isIn(e, musicButton))
+        if (isIn(e, musicButton)) {
             musicButton.setMousePressed(true);
-        else if (isIn(e, sfxButton))
+        } else if (isIn(e, sfxButton)) {
             sfxButton.setMousePressed(true);
-        else if (isIn(e, menuButton))
+        } else if (isIn(e, menuButton)) {
             menuButton.setMousePressed(true);
-        else if (isIn(e, replayButton))
+        } else if (isIn(e, replayButton)) {
             replayButton.setMousePressed(true);
-        else if (isIn(e, unpauseButton))
+        } else if (isIn(e, unpauseButton)) {
             unpauseButton.setMousePressed(true);
-        else if (isIn(e, volumeButton))
+        } else if (isIn(e, volumeButton)) {
             volumeButton.setMousePressed(true);
+        }
     }
 
     @Override
@@ -120,19 +121,22 @@ public class PauseOverlay extends ScreenOverlay {
             if (musicButton.isMousePressed())
                 musicButton.setMuted(!musicButton.isMuted());
         } else if (isIn(e, sfxButton)) {
-            if (sfxButton.isMousePressed())
+            if (sfxButton.isMousePressed()) {
                 sfxButton.setMuted(!sfxButton.isMuted());
+            }
         } else if (isIn(e, menuButton)) {
             if (menuButton.isMousePressed()) {
                 Gamestate.state = Gamestate.MENU;
                 playing.unpauseGame();
             }
         } else if (isIn(e, replayButton)) {
-            if (replayButton.isMousePressed())
-                System.out.println("replay lvl");
+            if (replayButton.isMousePressed()) {
+                playing.resetAll();
+            }
         } else if (isIn(e, unpauseButton)) {
-            if (unpauseButton.isMousePressed())
+            if (unpauseButton.isMousePressed()) {
                 playing.unpauseGame();
+            }
         }
 
         musicButton.resetBools();

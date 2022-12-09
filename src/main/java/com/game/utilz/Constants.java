@@ -34,7 +34,7 @@ public class Constants {
 			public static final int BEAR_ROWS = 5;
 			public static final int BEAR_COLS = 6;
 
-			public static final int BEAR_MAX_HEALTH = 10;
+			public static final int BEAR_MAX_HEALTH = 20;
 			public static final int BEAR_DAMAGE = 15;
 			public static final int BEAR_ATTACK_FRAME = 3;
 			public static final float BEAR_ATTACK_DISTANCE = Game.TILES_SIZE * 0.8f;

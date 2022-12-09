@@ -6,6 +6,8 @@ import static com.game.utilz.Constants.Directions.LEFT;
 import static com.game.utilz.Constants.Directions.RIGHT;
 import static com.game.utilz.Constants.EnemyConstants.*;
 import static com.game.utilz.Constants.GeneralConstants.GRAVITY;
+import static com.game.utilz.Constants.PlayerConstants.IDLE;
+import static com.game.utilz.Constants.PlayerConstants.PLAYER_MAX_HEALTH;
 import static com.game.utilz.HelpMethods.*;
 
 public abstract class Enemy extends Entity {
@@ -86,7 +88,7 @@ public abstract class Enemy extends Entity {
         }
 
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
-            if (IsFloor(hitbox, (walkDirection == LEFT ? xSpeed : xSpeed + hitbox.width), lvlData)) {
+            if (IsFloor(hitbox, xSpeed, lvlData)) {
                 hitbox.x += xSpeed;
                 return;
             }
@@ -148,5 +150,13 @@ public abstract class Enemy extends Entity {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        alive = true;
+        firstUpdate = true;
+        fallSpeed = 0;
     }
 }

@@ -39,6 +39,9 @@ public class Playing extends State implements StateMethods {
     private final int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH;
     private final int maxLvlOffsetX = maxTilesOffset * Game.TILES_SIZE;
 
+    // Degug mode
+    public static boolean debugMode = false;
+
     public Playing(Game game) {
         super(game);
 
@@ -165,6 +168,7 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_D -> player.setRight(true);
             case KeyEvent.VK_K -> player.setAttacking(true);
             case KeyEvent.VK_ESCAPE -> paused = !paused;
+            case KeyEvent.VK_F2 -> debugMode = !debugMode;
         }
     }
 
@@ -183,6 +187,10 @@ public class Playing extends State implements StateMethods {
 
     public void resetAll() {
         // Reset playing, enemy, level, etc.
+        gameOver = false;
+        paused = false;
+        player.reset();
+        enemyManager.resetAllEnemies();
     }
 
     public void checkEnemyHit() {

@@ -90,11 +90,12 @@ public abstract class Entity {
 	public void updateHealth(int damage, int maxHealth) {
 		currentHealth += damage;
 
-		if (currentHealth <= 0) {
-			currentHealth = 0;
-			// Game Over
-		} else if (currentHealth >= maxHealth) {
-			currentHealth = maxHealth;
-		}
+		currentHealth = Math.max(Math.min(currentHealth, maxHealth), 0);
+	}
+
+	public void reset() {
+		hitbox.x = x;
+		hitbox.y = y;
+		inAir = false;
 	}
 }

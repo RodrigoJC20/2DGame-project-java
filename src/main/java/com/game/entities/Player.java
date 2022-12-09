@@ -52,13 +52,13 @@ public class Player extends Entity {
 	}
 
 	public void update() {
-		checkPlayerHealth();
 		updateHealthBar();
 		updateAttackBox(PLAYER_ATTACKBOX_X_OFFSET, PLAYER_ATTACKBOX_Y_OFFSET);
 		updatePosition();
 		updateAnimationTick();
 		checkHitEnemy();
 		setAnimation();
+		checkPlayerHealth();
 	}
 
 	private void checkPlayerHealth() {
@@ -213,8 +213,11 @@ public class Player extends Entity {
 				null);
 
 		drawUI(g);
-		drawHitbox(g, lvlOffset);
-		drawAttackbox(g, lvlOffset);
+
+		if (Playing.debugMode) {
+			drawHitbox(g, lvlOffset);
+			drawAttackbox(g, lvlOffset);
+		}
 	}
 
 	private void drawUI(Graphics g) {
@@ -273,5 +276,21 @@ public class Player extends Entity {
 
 	public void setJump(boolean jump) {
 		this.jump = jump;
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+
+		resetDirectionBooleans();
+		attacking = false;
+		moving = false;
+		entityState = IDLE;
+		currentHealth = PLAYER_MAX_HEALTH;
+		walkDirection = RIGHT;
+
+		if (!IsEntityOnFloor(hitbox, lvlData)) {
+			inAir = true;
+		}
 	}
 }

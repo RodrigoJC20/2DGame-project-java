@@ -1,6 +1,7 @@
 package com.game.entities;
 
 import com.game.engine.Game;
+import com.game.gamestates.Playing;
 import com.game.utilz.LoadSave;
 
 import java.awt.Graphics;
@@ -87,8 +88,11 @@ public class BearMonster extends Enemy {
                 (int) hitbox.y - BEAR_DRAW_OFFSET,
                 BEAR_SIZE * flipW(),
                 BEAR_SIZE,null);
-        drawHitbox(g, xLvlOffset);
-        drawAttackbox(g, xLvlOffset);
+
+        if (Playing.debugMode) {
+            drawHitbox(g, xLvlOffset);
+            drawAttackbox(g, xLvlOffset);
+        }
     }
 
     @Override
@@ -105,5 +109,13 @@ public class BearMonster extends Enemy {
                         BEAR_SIZE_DEFAULT);
             }
         }
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+
+        currentHealth = BEAR_MAX_HEALTH;
+        entityState = IDLE;
     }
 }
